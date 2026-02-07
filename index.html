@@ -202,15 +202,16 @@
                     x = Math.random() * (window.innerWidth - buttonWidth - 40) + 20;
                     y = Math.random() * (window.innerHeight - buttonHeight - 40) + 20;
                     
-                    // Check if this position overlaps with the white container
+                    // Check if this position overlaps with the white container (with extra padding)
                     const buttonRight = x + buttonWidth;
                     const buttonBottom = y + buttonHeight;
+                    const padding = 50; // Extra space to avoid any overlap
                     
-                    // If button doesn't overlap container, position is valid
-                    if (x > containerRect.right + 20 || 
-                        buttonRight < containerRect.left - 20 || 
-                        y > containerRect.bottom + 20 || 
-                        buttonBottom < containerRect.top - 20) {
+                    // If button doesn't overlap container (with padding), position is valid
+                    if (x > containerRect.right + padding || 
+                        buttonRight < containerRect.left - padding || 
+                        y > containerRect.bottom + padding || 
+                        buttonBottom < containerRect.top - padding) {
                         isValidPosition = true;
                     }
                 }
