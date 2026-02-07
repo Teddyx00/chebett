@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 50%, #ff69b4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fall linear infinite;
+            top: -50px;
+        }
+
+        @keyframes fall {
+            to {
+                top: 100vh;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 80px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 30px;
+            min-height: 60px;
+            align-items: center;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: #ff1493;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background: #ff007f;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background: #ddd;
+            color: #666;
+            position: relative;
+        }
+
+        #noBtn:hover {
+            background: #ccc;
+        }
+
+        .message {
+            color: #ff1493;
+            font-size: 1.1em;
+            min-height: 30px;
+            font-style: italic;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #celebration {
+            display: none;
+        }
+
+        #celebration.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question">
+            <h1>Nicole, will you be my Valentine? 💕</h1>
+            <div class="buttons">
+                <button id="yesBtn">Yes! 💖</button>
+                <button id="noBtn">No</button>
+            </div>
+            <p class="message" id="message"></p>
+        </div>
+
+        <div id="celebration">
+            <div class="emoji">🎉💖🎉</div>
+            <h1>Yay! You're awesome! 💕</h1>
+            <p style="font-size: 1.2em; color: #ff1493; margin-top: 20px;">Can't wait to eat good food with you! 🤠</p>
+        </div>
+    </div>
+
+    <script>
+        // Create falling hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 500);
+
+        // Button logic
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const question = document.getElementById('question');
+        const celebration = document.getElementById('celebration');
+
+        let attempts = 0;
+        const messages = [
+            "The 'No' button is getting shy... just like me asking you this! 🙈",
+            "Come on... you know you want to say yes! 😊",
+            "Okay okay, I'll make this easier for you... 😉"
+        ];
+
+        noBtn.addEventListener('mouseover', function() {
+            if (attempts < 3) {
+                message.textContent = messages[attempts];
+                attempts++;
+
+                // Move the button to a random position
+                const x = Math.random() * (window.innerWidth - 200);
+                const y = Math.random() * (window.innerHeight - 200);
+                
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+
+                if (attempts === 3) {
+                    setTimeout(() => {
+                        noBtn.classList.add('hidden');
+                    }, 500);
+                }
+            }
+        });
+
+        yesBtn.addEventListener('click', function() {
+            question.classList.add('hidden');
+            celebration.classList.add('show');
+        });
+    </script>
+</body>
+</html>
