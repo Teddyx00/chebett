@@ -188,9 +188,17 @@
                 message.textContent = messages[attempts];
                 attempts++;
 
-                // Move the button to a random position
-                const x = Math.random() * (window.innerWidth - 200);
-                const y = Math.random() * (window.innerHeight - 200);
+                // Move the button to a random position within safe bounds
+                const container = document.querySelector('.container');
+                const containerRect = container.getBoundingClientRect();
+                const buttonWidth = noBtn.offsetWidth;
+                const buttonHeight = noBtn.offsetHeight;
+                
+                // Calculate random position within container, with padding
+                const maxX = containerRect.width - buttonWidth - 40;
+                const maxY = containerRect.height - buttonHeight - 40;
+                const x = Math.random() * maxX + 20;
+                const y = Math.random() * maxY + 20;
                 
                 noBtn.style.position = 'absolute';
                 noBtn.style.left = x + 'px';
