@@ -182,7 +182,8 @@
             "Okay okay, I'll make this easier for you... 😉"
         ];
 
-        noBtn.addEventListener('mouseover', function() {
+        // Function to move the No button
+        function moveNoButton() {
             if (attempts < 3) {
                 message.textContent = messages[attempts];
                 attempts++;
@@ -226,6 +227,20 @@
                     }, 500);
                 }
             }
+        }
+
+        // Desktop: move on hover
+        noBtn.addEventListener('mouseover', moveNoButton);
+        
+        // Mobile: move on click/touch, and prevent default click action
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveNoButton();
+        });
+        
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveNoButton();
         });
 
         yesBtn.addEventListener('click', function() {
