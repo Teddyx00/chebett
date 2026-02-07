@@ -187,28 +187,35 @@
                 message.textContent = messages[attempts];
                 attempts++;
 
-                // Move the button to a random position, avoiding Yes button and message area
+                // Move button anywhere on screen, but avoid the white container area
                 const container = document.querySelector('.container');
                 const containerRect = container.getBoundingClientRect();
                 const buttonWidth = noBtn.offsetWidth;
                 const buttonHeight = noBtn.offsetHeight;
                 
-                // Calculate safe zones - avoid center (where Yes button is) and bottom (where message is)
-                const maxX = containerRect.width - buttonWidth - 60;
-                const maxY = containerRect.height - buttonHeight - 120; // More space from bottom for message
-                
                 let x, y;
-                // Keep trying positions until we get one that doesn't overlap the center
-                do {
-                    x = Math.random() * maxX + 30;
-                    y = Math.random() * maxY + 30;
-                } while (
-                    // Avoid center area where Yes button is
-                    (x > containerRect.width / 2 - 120 && x < containerRect.width / 2 + 20 &&
-                     y > 80 && y < 160)
-                );
+                let isValidPosition = false;
                 
-                noBtn.style.position = 'absolute';
+                // Keep trying until we find a position that doesn't overlap the container
+                while (!isValidPosition) {
+                    // Random position within viewport with padding
+                    x = Math.random() * (window.innerWidth - buttonWidth - 40) + 20;
+                    y = Math.random() * (window.innerHeight - buttonHeight - 40) + 20;
+                    
+                    // Check if this position overlaps with the white container
+                    const buttonRight = x + buttonWidth;
+                    const buttonBottom = y + buttonHeight;
+                    
+                    // If button doesn't overlap container, position is valid
+                    if (x > containerRect.right + 20 || 
+                        buttonRight < containerRect.left - 20 || 
+                        y > containerRect.bottom + 20 || 
+                        buttonBottom < containerRect.top - 20) {
+                        isValidPosition = true;
+                    }
+                }
+                
+                noBtn.style.position = 'fixed';
                 noBtn.style.left = x + 'px';
                 noBtn.style.top = y + 'px';
 
