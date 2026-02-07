@@ -135,7 +135,7 @@
 <body>
     <div class="container">
         <div id="question">
-            <h1>Nicole, will you be my Valentine? 💕</h1>
+            <h1>Nicole, will you be my Valentine?💕</h1>
             <div class="buttons">
                 <button id="yesBtn">Yes! 💖</button>
                 <button id="noBtn">No</button>
@@ -144,7 +144,6 @@
         </div>
 
         <div id="celebration">
-            <div class="emoji">🎉💖🎉</div>
             <h1>Yay! You're awesome! 💕</h1>
             <p style="font-size: 1.2em; color: #ff1493; margin-top: 20px;">Can't wait to eat good food with you! 🤠</p>
         </div>
@@ -188,17 +187,26 @@
                 message.textContent = messages[attempts];
                 attempts++;
 
-                // Move the button to a random position within safe bounds
+                // Move the button to a random position, avoiding Yes button and message area
                 const container = document.querySelector('.container');
                 const containerRect = container.getBoundingClientRect();
                 const buttonWidth = noBtn.offsetWidth;
                 const buttonHeight = noBtn.offsetHeight;
                 
-                // Calculate random position within container, with padding
-                const maxX = containerRect.width - buttonWidth - 40;
-                const maxY = containerRect.height - buttonHeight - 40;
-                const x = Math.random() * maxX + 20;
-                const y = Math.random() * maxY + 20;
+                // Calculate safe zones - avoid center (where Yes button is) and bottom (where message is)
+                const maxX = containerRect.width - buttonWidth - 60;
+                const maxY = containerRect.height - buttonHeight - 120; // More space from bottom for message
+                
+                let x, y;
+                // Keep trying positions until we get one that doesn't overlap the center
+                do {
+                    x = Math.random() * maxX + 30;
+                    y = Math.random() * maxY + 30;
+                } while (
+                    // Avoid center area where Yes button is
+                    (x > containerRect.width / 2 - 120 && x < containerRect.width / 2 + 20 &&
+                     y > 80 && y < 160)
+                );
                 
                 noBtn.style.position = 'absolute';
                 noBtn.style.left = x + 'px';
